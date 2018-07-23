@@ -258,3 +258,190 @@ john = nil
 // Prints "John Appleseed is being deinitialized"
 // Prints "Card #1234567890123456 is being deinitialized"
 ```
+
+## Unowned References and Implicitly Unwrapped Optional Properties
+
+上面的例子包含了最常见的打破 strong reference cycle 的场景。现在我们来分析第三个场景，两个 properties 总该有个值，一旦初始化了以后都不该设置为 nil。这种情境下就要使用 unowned property 以及 implicitly unwrapped optional property。
+
+这使得 properties 一旦初始化后能被直接访问（不用 optional unwrapping），并且避免 reference cycle。下面我们来看这种情况。
+
+我们定义两个类，Country 和 City。每个 country 必须有一个 capital city，每一个 city 必须属于一个 country，如下图：
+
+```swift
+class Country {
+    let name: String
+    var capitalCity: City!
+    init(name: String, capitalName: String) {
+        self.name = name
+        self.capitalCity = City(name: capitalName, country: self)
+    }
+}
+
+class City {
+    let name: String
+    unowned let country: Country
+    init(name: String, country: Country) {
+        self.name = name
+        self.country = country
+    }
+}
+```
+
+声明 capitalCity property 为 implicitly unwrapped optional property，这表示这个属性默认值是 nil，但是不用 upwrap 也能直接使用。因为 capitalCity 的默认值是 nil，一个新的 Country 类的实例可以被认为是 fully initialized 的，只要它正确设置了 name property。这意味着 Country initializer 可以把 self 传给 City initializer。
+
+正是因为上面的愿意，你可以在一行里为 Country 和 City 类实例分配内存，并且不会造成 strong reference cycle。
+
+
+```swift
+var country = Country(name: "Canada", capitalName: "Ottawa")
+print("\(country.name)'s capital city is called \(country.capitalCity.name)")
+// Prints "Canada's capital city is called Ottawa"
+```
+
+## Strong Reference Cycles for Closures
+
+A strong reference cycle 也会出现在以下情况，赋值 closure 给类实例的 property，并且 closure 的 body 捕获（capture）这个实例。closure 的 body 可以访问类实例的 property，比如说 self.someProperty，或者调用实例的方法，比如 self.someMethod()。这两种情况都会造成 closure 来捕获自己（capture self），并造成 strong reference cycle。
+
+因为 closures 和类一样都是引用类型，所以也会造成 strong reference cycle。当你把 closure 赋值给 property 的时候，你也使一个引用指向了那个 closure。本质上来说和之前的 strong references 原理一样，现在是类实例和 closure 之间的关系。
+
+Swift 为我们提供了优雅的解决方案，被称为 closure capture list。我们一起来看下面的例子：
+
+```swift
+class HTMLElement {
+
+    let name: String
+    let text: String?
+
+    lazy var asHTML: () -> String = {
+        if let text = self.text {
+            return "<\(self.name)>\(text)</\(self.name)>"
+        } else {
+            return "<\(self.name) />"
+        }
+    }
+
+    init(name: String, text: String? = nil) {
+        self.name = name
+        self.text = text
+    }
+
+    deinit {
+        print("\(name) is being deinitialized")
+    }
+
+}
+```
+
+这个 HTMLElement 类定义了一个 name property，表示这个元素的名字，比如“h1”表示 heading element，“p“表示 paragraph element，或者”br“是 line break element。HTMLElement 还定义了 an optional text property，也就是在元素内的具体内容。
+
+除了这两个比较简单的属性，HTMLElement 类还定义了一个 lazy property，称作 asHTML。这个 property 引用一个 closure，这个 asHTML propert 的类型是 () -> String 函数。
+
+这个 asHTML property 就像实例方法一样被使用，下来我们来看例子：
+
+```swift
+let heading = HTMLElement(name: "h1")
+let defaultText = "some default text"
+heading.asHTML = {
+    return "<\(heading.name)>\(heading.text ?? defaultText)</\(heading.name)>"
+}
+print(heading.asHTML())
+// Prints "<h1>some default text</h1>"
+```
+
+HTMLElement 类提供了一个 initializer，需要一个 name argument 或者是一个 text argument，以及一个 deinitializer。下面是实例化：
+
+```swift
+var paragraph: HTMLElement? = HTMLElement(name: "p", text: "hello, world")
+print(paragraph!.asHTML())
+// Prints "<p>hello, world</p>"
+```
+
+不幸的是，上面的 HTMLElement 类造成了 strong reference cycle，下面是图示：
+
+![image](https://github.com/byelaney/Swift-4.2-Guide/blob/master/Automatic-Reference-Counting/img/8.png)
+
+该实例的 asHTML property 持有指向 closure 的强引用，又因为该 closure 在 body 内使用了 self（比如 self.name 和 self.text），该 closure 捕获了 self，也就是说它持有一个指向 HTMLElement 实例的强引用，这就造成了 strong reference cycle。
+
+如果你把 paragraph variable 设置为 nil，HTMLElement 实例以及 closure 都没有被释放：
+
+```swift
+paragraph = nil
+```
+
+## Resolving Strong Reference Cycles for Closures
+
+你可以在 closure 的定义里使用 capture list 来解决这个问题。capture list 定义了 closure body 内捕获类型时候的规则。你可以定义捕获类型为 weak 或者 onowned 就像之前对类实例一样。
+
+## Defining a Capture List
+
+直接看具体例子：
+
+```swift
+lazy var someClosure: (Int, String) -> String = {
+    [unowned self, weak delegate = self.delegate!] (index: Int, stringToProcess: String) -> String in
+    // closure body goes here
+}
+```
+
+如果 closure 没有 parameter list 或者 return type，由于它们能被从上下文推断出来，可以像以下这样：
+
+```swift
+lazy var someClosure: () -> String = {
+    [unowned self, weak delegate = self.delegate!] in
+    // closure body goes here
+}
+```
+
+## Weak and Unowned References
+
+如果 closure 和实例总是会引用对方，并且总该同时被释放回收，在 closure 的 capture 中使用 unowned reference。
+
+相反的，在 closure 的 capture 中使用 weak reference，如果 captured reference 在以后会称为 nil。Weak references 总是 optional type，并且自动设置为 nil 当引用的实例被释放回收。
+
+在之前的 HTMLElement 例子里，unowned reference 是合适的。下面是正确解法：
+
+```swift
+class HTMLElement {
+
+    let name: String
+    let text: String?
+
+    lazy var asHTML: () -> String = {
+        [unowned self] in
+        if let text = self.text {
+            return "<\(self.name)>\(text)</\(self.name)>"
+        } else {
+            return "<\(self.name) />"
+        }
+    }
+
+    init(name: String, text: String? = nil) {
+        self.name = name
+        self.text = text
+    }
+
+    deinit {
+        print("\(name) is being deinitialized")
+    }
+
+}
+```
+
+capture list 是 [unowned self]，意思是：“捕获 self 作为一个 unowned reference 而不是一个 strong reference”
+
+```swift
+var paragraph: HTMLElement? = HTMLElement(name: "p", text: "hello, world")
+print(paragraph!.asHTML())
+// Prints "<p>hello, world</p>"
+```
+
+下面是关系图：
+
+![image](https://github.com/byelaney/Swift-4.2-Guide/blob/master/Automatic-Reference-Counting/img/9.png)
+
+这下问题解决了。
+
+```swift
+paragraph = nil
+// Prints "p is being deinitialized"
+```
