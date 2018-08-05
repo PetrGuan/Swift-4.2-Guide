@@ -12,6 +12,8 @@
 		6035633A211594DD002BEA76 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60356338211594DD002BEA76 /* Main.storyboard */; };
 		6035633C211594DE002BEA76 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6035633B211594DE002BEA76 /* Assets.xcassets */; };
 		6035633F211594DE002BEA76 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6035633D211594DE002BEA76 /* LaunchScreen.storyboard */; };
+		60AF61992116F83B0027FC30 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60AF61982116F83B0027FC30 /* AboutViewController.swift */; };
+		60AF619B2116FADE0027FC30 /* BullsEye.html in Resources */ = {isa = PBXBuildFile; fileRef = 60AF619A2116FADE0027FC30 /* BullsEye.html */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		6035633B211594DE002BEA76 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6035633E211594DE002BEA76 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		60356340211594DE002BEA76 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		60AF61982116F83B0027FC30 /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		60AF619A2116FADE0027FC30 /* BullsEye.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = BullsEye.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,12 +58,14 @@
 		60356333211594DD002BEA76 /* BullsEye */ = {
 			isa = PBXGroup;
 			children = (
+				60AF619A2116FADE0027FC30 /* BullsEye.html */,
 				60356334211594DD002BEA76 /* AppDelegate.swift */,
 				60356336211594DD002BEA76 /* ViewController.swift */,
 				60356338211594DD002BEA76 /* Main.storyboard */,
 				6035633B211594DE002BEA76 /* Assets.xcassets */,
 				6035633D211594DE002BEA76 /* LaunchScreen.storyboard */,
 				60356340211594DE002BEA76 /* Info.plist */,
+				60AF61982116F83B0027FC30 /* AboutViewController.swift */,
 			);
 			path = BullsEye;
 			sourceTree = "<group>";
@@ -123,6 +129,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6035633F211594DE002BEA76 /* LaunchScreen.storyboard in Resources */,
+				60AF619B2116FADE0027FC30 /* BullsEye.html in Resources */,
 				6035633C211594DE002BEA76 /* Assets.xcassets in Resources */,
 				6035633A211594DD002BEA76 /* Main.storyboard in Resources */,
 			);
@@ -135,6 +142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60AF61992116F83B0027FC30 /* AboutViewController.swift in Sources */,
 				60356337211594DD002BEA76 /* ViewController.swift in Sources */,
 				60356335211594DD002BEA76 /* AppDelegate.swift in Sources */,
 			);
