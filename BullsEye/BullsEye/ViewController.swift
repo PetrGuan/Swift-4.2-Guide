@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import QuartzCore
 
 class ViewController: UIViewController {
     var currentSliderValue = 50
@@ -100,6 +101,13 @@ class ViewController: UIViewController {
         totalScore = 0
         round = 0
         startNewRound()
+        
+        // Animation transition
+        let transition = CATransition()
+        transition.type = CATransitionType(rawValue: kCATransition)
+        transition.duration = 1
+        transition.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+        view.layer.add(transition, forKey: nil)
     }
 }
 
