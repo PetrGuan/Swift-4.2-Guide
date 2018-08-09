@@ -52,33 +52,61 @@
             </objects>
             <point key="canvasLocation" x="1185" y="138.38028169014083"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Add Item-->
         <scene sceneID="uH0-vi-zD6">
             <objects>
-                <tableViewController id="19w-Ny-k8s" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Hjg-LK-JLF">
+                <tableViewController id="19w-Ny-k8s" customClass="AddItemTableViewController" customModule="CheckLists" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="Hjg-LK-JLF">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Bk0-3q-eqG">
-                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Bk0-3q-eqG" id="s4K-tG-KZ1">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection id="uzI-9T-Hhu">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="hFv-JH-XGm">
+                                        <rect key="frame" x="0.0" y="35" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hFv-JH-XGm" id="akW-cj-YJA">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name of the Item" textAlignment="natural" adjustsFontSizeToFit="NO" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hn0-g1-DJI">
+                                                    <rect key="frame" x="16" y="6" width="288" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <nil key="textColor"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                                </textField>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
                         <connections>
                             <outlet property="dataSource" destination="19w-Ny-k8s" id="AEs-Tv-cKF"/>
                             <outlet property="delegate" destination="19w-Ny-k8s" id="Xgx-dj-BWG"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Add Item" id="XGp-8R-h31">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="OWw-gD-wCt">
+                            <connections>
+                                <action selector="cancel" destination="19w-Ny-k8s" id="Jzy-RD-TdE"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Gg8-cA-Qfd">
+                            <connections>
+                                <action selector="done" destination="19w-Ny-k8s" id="9Ni-7t-jJh"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="textField" destination="hn0-g1-DJI" id="qhD-Fz-eYd"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FPt-EL-sXc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2240" y="141"/>
+            <point key="canvasLocation" x="2238.75" y="140.49295774647888"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="COr-UG-PtO">

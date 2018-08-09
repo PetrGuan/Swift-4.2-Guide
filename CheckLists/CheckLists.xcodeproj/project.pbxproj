@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6006C403211C86FD00CA8520 /* AddItemTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6006C402211C86FD00CA8520 /* AddItemTableViewController.swift */; };
 		60D7AC9C2118850E0086A399 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D7AC9B2118850E0086A399 /* AppDelegate.swift */; };
 		60D7AC9E2118850E0086A399 /* CheckListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D7AC9D2118850E0086A399 /* CheckListViewController.swift */; };
 		60D7ACA12118850E0086A399 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60D7AC9F2118850E0086A399 /* Main.storyboard */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6006C402211C86FD00CA8520 /* AddItemTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemTableViewController.swift; sourceTree = "<group>"; };
 		60D7AC982118850E0086A399 /* CheckLists.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CheckLists.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		60D7AC9B2118850E0086A399 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		60D7AC9D2118850E0086A399 /* CheckListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckListViewController.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				60D7ACA42118850F0086A399 /* LaunchScreen.storyboard */,
 				60D7ACA72118850F0086A399 /* Info.plist */,
 				60D7ACAD211B317F0086A399 /* ChecklistItem.swift */,
+				6006C402211C86FD00CA8520 /* AddItemTableViewController.swift */,
 			);
 			path = CheckLists;
 			sourceTree = "<group>";
@@ -138,6 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6006C403211C86FD00CA8520 /* AddItemTableViewController.swift in Sources */,
 				60D7AC9E2118850E0086A399 /* CheckListViewController.swift in Sources */,
 				60D7ACAE211B317F0086A399 /* ChecklistItem.swift in Sources */,
 				60D7AC9C2118850E0086A399 /* AppDelegate.swift in Sources */,
