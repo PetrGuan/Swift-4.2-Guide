@@ -75,7 +75,11 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
+                                                    <connections>
+                                                        <action selector="done" destination="19w-Ny-k8s" eventType="editingDidEndOnExit" id="oys-Bq-49D"/>
+                                                        <outlet property="delegate" destination="19w-Ny-k8s" id="AM8-LN-4cx"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -94,13 +98,14 @@
                                 <action selector="cancel" destination="19w-Ny-k8s" id="Jzy-RD-TdE"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Gg8-cA-Qfd">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="done" id="Gg8-cA-Qfd">
                             <connections>
                                 <action selector="done" destination="19w-Ny-k8s" id="9Ni-7t-jJh"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="doneBarButton" destination="Gg8-cA-Qfd" id="l0g-0p-uyL"/>
                         <outlet property="textField" destination="hn0-g1-DJI" id="qhD-Fz-eYd"/>
                     </connections>
                 </tableViewController>
