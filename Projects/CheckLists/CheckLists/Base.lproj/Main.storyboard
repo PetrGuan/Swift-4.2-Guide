@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Checklists-->
+        <!--(Name of the CheckList)-->
         <scene sceneID="DPW-D8-qRj">
             <objects>
                 <tableViewController id="mKS-aM-3n7" customClass="CheckListViewController" customModule="CheckLists" customModuleProvider="target" sceneMemberID="viewController">
@@ -50,7 +50,7 @@
                             <outlet property="delegate" destination="mKS-aM-3n7" id="Vau-7I-8FI"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Checklists" id="zxh-5R-D8c">
+                    <navigationItem key="navigationItem" title="(Name of the CheckList)" id="zxh-5R-D8c">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="xdd-MX-WrO">
                             <connections>
                                 <segue destination="19w-Ny-k8s" kind="show" identifier="AddItem" id="TO3-3z-595"/>
@@ -123,6 +123,56 @@
             </objects>
             <point key="canvasLocation" x="2238.75" y="140.49295774647888"/>
         </scene>
+        <!--All Lists-->
+        <scene sceneID="h7J-4g-iB4">
+            <objects>
+                <tableViewController id="E2v-MJ-Xf1" userLabel="All Lists" customClass="AllListsViewController" customModule="CheckLists" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="rvu-lG-vr3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <connections>
+                            <outlet property="dataSource" destination="E2v-MJ-Xf1" id="mQi-Ng-FDg"/>
+                            <outlet property="delegate" destination="E2v-MJ-Xf1" id="1Ik-lv-dLn"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="CheckLists" id="9kj-67-EVj"/>
+                    <connections>
+                        <segue destination="mKS-aM-3n7" kind="show" identifier="ShowChecklist" id="HHT-P9-eWv"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ztt-yU-dR2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="187" y="-528"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="muM-Bf-iFB">
+            <objects>
+                <tableViewController id="LYL-5M-mU1" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="D2d-mh-72v">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="cOE-Ir-hi1">
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="cOE-Ir-hi1" id="zN2-Vf-esg">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="LYL-5M-mU1" id="ggF-Le-LVz"/>
+                            <outlet property="delegate" destination="LYL-5M-mU1" id="Aw7-pD-cnx"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lDr-aK-D0t" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1185" y="-660"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="COr-UG-PtO">
             <objects>
@@ -134,7 +184,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="mKS-aM-3n7" kind="relationship" relationship="rootViewController" id="HQD-R1-aXe"/>
+                        <segue destination="E2v-MJ-Xf1" kind="relationship" relationship="rootViewController" id="r6i-Tu-2gA"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Y5f-ZA-QHi" userLabel="First Responder" sceneMemberID="firstResponder"/>

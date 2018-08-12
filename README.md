@@ -6,6 +6,7 @@
 
 # [Automatic Reference Counting](https://github.com/byelaney/Swift-4.2-Guide/blob/master/Automatic-Reference-Counting/README.md)
 
+# [Closures](https://github.com/byelaney/Swift-4.2-Guide/blob/master/Closures/README.md)
 
 作者 [@Peter_Guan][1]
 2018 年 07月 22日

@@ -10,6 +10,8 @@ import UIKit
 
 class CheckListViewController: UITableViewController, ItemDetailViewControllerDelegate {
     
+    var checklist: Checklist!
+    
     func ItemDetailViewControllerDidCancel(_ controller: ItemDetailViewController) {
         navigationController?.popViewController(animated: true)
     }
@@ -45,10 +47,12 @@ class CheckListViewController: UITableViewController, ItemDetailViewControllerDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Enable large titles
-        navigationController?.navigationBar.prefersLargeTitles = true
+        // Disable large titles
+        navigationItem.largeTitleDisplayMode = .never
         // Load items
         loadCheckListItems()
+        
+        title = checklist.name
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
