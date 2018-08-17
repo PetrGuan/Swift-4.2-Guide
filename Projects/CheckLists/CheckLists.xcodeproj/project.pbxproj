@@ -47,6 +47,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		605E0A28212647F800853AC5 /* Data Models */ = {
+			isa = PBXGroup;
+			children = (
+				60289585211FCEE200709C28 /* Checklist.swift */,
+				60D7ACAD211B317F0086A399 /* ChecklistItem.swift */,
+				60C8C0F42123225600149572 /* DataModel.swift */,
+			);
+			path = "Data Models";
+			sourceTree = "<group>";
+		};
+		605E0A292126483000853AC5 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				60289583211FC85400709C28 /* AllListsViewController.swift */,
+				60D7AC9D2118850E0086A399 /* CheckListViewController.swift */,
+				6006C402211C86FD00CA8520 /* ItemDetailViewController.swift */,
+				60289587211FD89900709C28 /* ListDetailViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		605E0A2A2126485100853AC5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				60D7ACA22118850F0086A399 /* Assets.xcassets */,
+				60D7ACA42118850F0086A399 /* LaunchScreen.storyboard */,
+				60D7AC9F2118850E0086A399 /* Main.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		60D7AC8F2118850E0086A399 = {
 			isa = PBXGroup;
 			children = (
@@ -67,17 +98,10 @@
 			isa = PBXGroup;
 			children = (
 				60D7AC9B2118850E0086A399 /* AppDelegate.swift */,
-				60D7AC9D2118850E0086A399 /* CheckListViewController.swift */,
-				60D7AC9F2118850E0086A399 /* Main.storyboard */,
-				60D7ACA22118850F0086A399 /* Assets.xcassets */,
-				60D7ACA42118850F0086A399 /* LaunchScreen.storyboard */,
+				605E0A28212647F800853AC5 /* Data Models */,
 				60D7ACA72118850F0086A399 /* Info.plist */,
-				60D7ACAD211B317F0086A399 /* ChecklistItem.swift */,
-				6006C402211C86FD00CA8520 /* ItemDetailViewController.swift */,
-				60289583211FC85400709C28 /* AllListsViewController.swift */,
-				60289585211FCEE200709C28 /* Checklist.swift */,
-				60289587211FD89900709C28 /* ListDetailViewController.swift */,
-				60C8C0F42123225600149572 /* DataModel.swift */,
+				605E0A2A2126485100853AC5 /* Resources */,
+				605E0A292126483000853AC5 /* View Controllers */,
 			);
 			path = CheckLists;
 			sourceTree = "<group>";
