@@ -19,7 +19,7 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
     func listDetailViewController(_ controller: ListDetailViewController, didFinishAdding checklist: Checklist) {
         let newRowIndex = dataModel.lists.count
         dataModel.lists.append(checklist)
-        
+        dataModel.sortChecklists()
         let indexPath = IndexPath(row: newRowIndex, section: 0)
         let indexPaths = [indexPath]
         tableView.insertRows(at: indexPaths, with: .automatic)
@@ -28,6 +28,7 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
     }
     
     func listDetailViewController(_ controller: ListDetailViewController, didFinishEditing checklist: Checklist) {
+        dataModel.sortChecklists()
         if let index = dataModel.lists.index(of: checklist) {
             let indexPath = IndexPath(row: index, section: 0)
             if let cell = tableView.cellForRow(at: indexPath) {
@@ -41,7 +42,11 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         super.viewDidLoad()
         // Enable large titles
         navigationController?.navigationBar.prefersLargeTitles = true
-        // Load data
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -65,6 +70,15 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         let cell = makeCell(for: tableView)
         cell.textLabel?.text = dataModel.lists[indexPath.row].name
         cell.accessoryType = .detailDisclosureButton
+        if dataModel.lists[indexPath.row].items.isEmpty {
+            cell.detailTextLabel?.text = "(No Items)"
+        }
+        else if dataModel.lists[indexPath.row].countUncheckedItems() == 0 {
+            cell.detailTextLabel?.text = "All Done!"
+        }
+        else {
+            cell.detailTextLabel?.text = "\(dataModel.lists[indexPath.row].countUncheckedItems())  Remaining"
+        }
         return cell
     }
     
@@ -83,7 +97,7 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
             return cell
         }
         else {
-            return UITableViewCell(style: .default, reuseIdentifier: cellIdentifier)
+            return UITableViewCell(style: .subtitle, reuseIdentifier: cellIdentifier)
         }
     }
     
