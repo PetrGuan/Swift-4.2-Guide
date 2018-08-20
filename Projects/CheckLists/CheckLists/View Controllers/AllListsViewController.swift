@@ -79,6 +79,7 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         else {
             cell.detailTextLabel?.text = "\(dataModel.lists[indexPath.row].countUncheckedItems())  Remaining"
         }
+        cell.imageView?.image = UIImage(named: dataModel.lists[indexPath.row].iconName)
         return cell
     }
     
