@@ -110,4 +110,10 @@ class LocationDetailsViewController: UITableViewController {
             controller.selectedCategoryName = categoryName
         }
     }
+    
+    @IBAction func categoryPickerDidPickCategory(_ segue: UIStoryboardSegue) {
+        let controller = segue.source as! CategoryPickerViewController
+        categoryName = controller.selectedCategoryName
+        categoryLabel.text = categoryName
+    }
 }
