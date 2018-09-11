@@ -33,10 +33,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let tabController = window!.rootViewController as! UITabBarController
         
         if let tableViewControllers = tabController.viewControllers {
-            let navController = tableViewControllers[0] as! UINavigationController
-            let controller = navController.viewControllers.first as! CurrentLocationViewController
+            // First tab
+            var navController = tableViewControllers[0] as! UINavigationController
+            let controller1 = navController.viewControllers.first as! CurrentLocationViewController
+            controller1.managedObjectContext = managedObjectContext
             
-            controller.managedObjectContext = managedObjectContext
+            // Second tab
+            navController = tableViewControllers[1] as! UINavigationController
+            let controller2 = navController.viewControllers.first as! LocationsViewController
+            controller2.managedObjectContext = managedObjectContext
         }
         print(applicationDocumentsDirectory)
         listenForFatalCoreDataNotification()

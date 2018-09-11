@@ -20,6 +20,8 @@
 		609F5B502143ADCA0015E0C0 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 609F5B4E2143ADCA0015E0C0 /* DataModel.xcdatamodeld */; };
 		609F5B532143B3330015E0C0 /* Location+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609F5B512143B3330015E0C0 /* Location+CoreDataClass.swift */; };
 		609F5B542143B3330015E0C0 /* Location+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609F5B522143B3330015E0C0 /* Location+CoreDataProperties.swift */; };
+		609F5B7821480B5E0015E0C0 /* LocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609F5B7721480B5E0015E0C0 /* LocationsViewController.swift */; };
+		609F5B7A2148169C0015E0C0 /* LocationCellTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609F5B792148169C0015E0C0 /* LocationCellTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +40,8 @@
 		609F5B4F2143ADCA0015E0C0 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		609F5B512143B3330015E0C0 /* Location+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Location+CoreDataClass.swift"; path = "MyLocations/Location+CoreDataClass.swift"; sourceTree = "<group>"; };
 		609F5B522143B3330015E0C0 /* Location+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Location+CoreDataProperties.swift"; path = "MyLocations/Location+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		609F5B7721480B5E0015E0C0 /* LocationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsViewController.swift; sourceTree = "<group>"; };
+		609F5B792148169C0015E0C0 /* LocationCellTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCellTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,17 +77,19 @@
 			isa = PBXGroup;
 			children = (
 				60861276213430CD00D18F57 /* AppDelegate.swift */,
-				60861278213430CD00D18F57 /* CurrentLocationViewController.swift */,
-				6086127A213430CD00D18F57 /* SecondViewController.swift */,
-				6086127C213430CD00D18F57 /* Main.storyboard */,
 				6086127F213430CF00D18F57 /* Assets.xcassets */,
-				60861281213430CF00D18F57 /* LaunchScreen.storyboard */,
-				60861284213430CF00D18F57 /* Info.plist */,
-				6086128A213DF44200D18F57 /* LocationDetailsViewController.swift */,
 				609F5B4821409C620015E0C0 /* CategoryPickerViewController.swift */,
-				609F5B4A2142AFD90015E0C0 /* HudView.swift */,
-				609F5B4C2142C3CF0015E0C0 /* Functions.swift */,
+				60861278213430CD00D18F57 /* CurrentLocationViewController.swift */,
 				609F5B4E2143ADCA0015E0C0 /* DataModel.xcdatamodeld */,
+				609F5B4C2142C3CF0015E0C0 /* Functions.swift */,
+				609F5B4A2142AFD90015E0C0 /* HudView.swift */,
+				60861284213430CF00D18F57 /* Info.plist */,
+				60861281213430CF00D18F57 /* LaunchScreen.storyboard */,
+				6086128A213DF44200D18F57 /* LocationDetailsViewController.swift */,
+				609F5B7721480B5E0015E0C0 /* LocationsViewController.swift */,
+				6086127C213430CD00D18F57 /* Main.storyboard */,
+				6086127A213430CD00D18F57 /* SecondViewController.swift */,
+				609F5B792148169C0015E0C0 /* LocationCellTableViewCell.swift */,
 			);
 			path = MyLocations;
 			sourceTree = "<group>";
@@ -161,8 +167,10 @@
 			files = (
 				6086128B213DF44200D18F57 /* LocationDetailsViewController.swift in Sources */,
 				609F5B502143ADCA0015E0C0 /* DataModel.xcdatamodeld in Sources */,
+				609F5B7A2148169C0015E0C0 /* LocationCellTableViewCell.swift in Sources */,
 				6086127B213430CD00D18F57 /* SecondViewController.swift in Sources */,
 				609F5B4B2142AFD90015E0C0 /* HudView.swift in Sources */,
+				609F5B7821480B5E0015E0C0 /* LocationsViewController.swift in Sources */,
 				609F5B542143B3330015E0C0 /* Location+CoreDataProperties.swift in Sources */,
 				609F5B4D2142C3CF0015E0C0 /* Functions.swift in Sources */,
 				60861277213430CD00D18F57 /* AppDelegate.swift in Sources */,
