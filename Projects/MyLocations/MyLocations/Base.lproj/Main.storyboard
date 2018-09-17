@@ -443,6 +443,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="NzC-iK-DRA" id="QcR-do-kcx"/>
+                        <segue destination="jsQ-be-Erd" kind="show" identifier="EditLocation" id="hgB-1n-xto"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jc0-BR-la2" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -509,6 +510,6 @@
         <image name="first" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="42m-fO-xth"/>
+        <segue reference="hgB-1n-xto"/>
     </inferredMetricsTieBreakers>
 </document>
