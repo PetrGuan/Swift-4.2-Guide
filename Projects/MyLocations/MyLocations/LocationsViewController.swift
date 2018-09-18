@@ -26,7 +26,7 @@ class LocationsViewController: UITableViewController {
         
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: "Locations")
         
-        fetchedResultsController.delegate = self as? NSFetchedResultsControllerDelegate
+        fetchedResultsController.delegate = self as NSFetchedResultsControllerDelegate
         return fetchedResultsController
     }()
     
