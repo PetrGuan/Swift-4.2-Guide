@@ -52,4 +52,16 @@ public class Location: NSManagedObject, MKAnnotation {
     public var subtitle: String? {
         return category
     }
+    
+    func removePhotoFile() {
+        if hasPhoto {
+            do {
+                try FileManager.default.removeItem(at: photoURL)
+            } catch {
+                print("Error removing file: \(error)")
+            }
+        }
+    }
+    
+    
 }

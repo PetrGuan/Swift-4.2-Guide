@@ -63,6 +63,13 @@ class LocationDetailsViewController: UITableViewController {
         }
     }
     
+    var observer: Any!
+    
+    deinit {
+        print("*** deinit \(self)")
+        NotificationCenter.default.removeObserver(observer)
+    }
+    
     // MARK:- Actions
     @IBAction func done() {
         let hudView = HudView.hud(inView: navigationController!.view, animated: true)
@@ -76,6 +83,7 @@ class LocationDetailsViewController: UITableViewController {
         else {
             hudView.text = "Tagged"
             location = Location(context: managedObjectContext)
+            location.photoID = nil
         }
         
         location.locationDescription = descriptionTextView.text
@@ -84,6 +92,19 @@ class LocationDetailsViewController: UITableViewController {
         location.longitude = coordinate.longitude
         location.date = date
         location.placemark = placemark
+        
+        if let image = image {
+            if !location.hasPhoto {
+                location.photoID = Location.nextPhotoID() as NSNumber
+            }
+            if let data = image.jpegData(compressionQuality: 0.5) {
+                do {
+                    try data.write(to: location.photoURL, options: .atomic)
+                } catch {
+                    print("Error writing file: \(error)")
+                }
+            }
+        }
         
         do {
             try managedObjectContext.save()
@@ -105,6 +126,12 @@ class LocationDetailsViewController: UITableViewController {
         
         if let location = locationToEdit {
             title = "Edit Location"
+            
+            if location.hasPhoto {
+                if let theImage = location.photoImage {
+                    // show(image: theImage, sender: self)
+                }
+            }
         }
         
         descriptionTextView.text = descriptionText
@@ -126,6 +153,9 @@ class LocationDetailsViewController: UITableViewController {
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
         gestureRecognizer.cancelsTouchesInView = false
         tableView.addGestureRecognizer(gestureRecognizer)
+        
+        // Add notification
+        listenForBackgroundNotification()
     }
     
     @objc func hideKeyboard(_ gestureRecognizer: UITapGestureRecognizer) {
@@ -136,6 +166,18 @@ class LocationDetailsViewController: UITableViewController {
         }
         descriptionTextView.resignFirstResponder()
     }
+    
+    func listenForBackgroundNotification() {
+        observer = NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification, object: nil, queue: OperationQueue.main) {[weak self] _ in
+            if let weakSelf = self {
+                if weakSelf.presentedViewController != nil {
+                    weakSelf.dismiss(animated: false, completion: nil)
+                }
+                weakSelf.descriptionTextView.resignFirstResponder()
+            }
+        }
+    }
+    
     
     // MARK:- Private Methods
     func string(from placemark: CLPlacemark) -> String {
