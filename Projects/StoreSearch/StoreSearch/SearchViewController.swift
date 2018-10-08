@@ -18,10 +18,17 @@ class SearchViewController: UIViewController {
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
+    @IBAction func segmentChanged(_ sender: UISegmentedControl) {
+        performSearch()
+    }
     
     var searchResults = [SearchResult]()
     var hasSearched = false
     var isLoading = false
+    
+    var dataTask: URLSessionDataTask?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +36,7 @@ class SearchViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
-        tableView.contentInset = UIEdgeInsets(top: 64, left: 0, bottom: 0, right: 0)
+        tableView.contentInset = UIEdgeInsets(top: 108, left: 0, bottom: 0, right: 0)
         
         var cellNib = UINib(nibName: TableViewCellIdentifiers.searchResultCell, bundle: nil)
         tableView.register(cellNib, forCellReuseIdentifier: TableViewCellIdentifiers.searchResultCell)
@@ -65,27 +72,50 @@ class SearchViewController: UIViewController {
 
 extension SearchViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        performSearch()
+    }
+    
+    func performSearch() {
         if !searchBar.text!.isEmpty {
             searchBar.resignFirstResponder()
             
             tableView.reloadData()
             hasSearched = true
+            dataTask?.cancel()
+            isLoading = true
             searchResults = []
             
-            let url = iTunesURL(searchText: searchBar.text!)
+            let url = iTunesURL(searchText: searchBar.text!, category: segmentedControl.selectedSegmentIndex)
             let session = URLSession.shared
             
-            let dataTask = session.dataTask(with: url, completionHandler: {
+            dataTask = session.dataTask(with: url, completionHandler: {
                 data, response, error in
-                if let error = error {
-                    print("Failure! \(error)")
+                if let error = error as NSError?, error.code == -999 {
+                    return
+                }
+                else if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
+                    if let data = data {
+                        self.searchResults = self.parse(data: data)
+                        self.searchResults.sort(by: <)
+                        DispatchQueue.main.async {
+                            self.isLoading = false
+                            self.tableView.reloadData()
+                        }
+                        return
+                    }
                 }
                 else {
-                    print("Success! \(response!)")
+                    print("Failure! \(response!)")
+                    DispatchQueue.main.async {
+                        self.hasSearched = false
+                        self.isLoading = false
+                        self.tableView.reloadData()
+                        self.showNetworkError()
+                    }
                 }
             })
             
-            dataTask.resume()
+            dataTask?.resume()
         }
     }
     
@@ -114,19 +144,15 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
         else {
             let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCellIdentifiers.searchResultCell, for: indexPath) as! SearchResultCell
             let searchResult = searchResults[indexPath.row]
-            cell.nameLabel.text = searchResult.name
-            if searchResult.artistName.isEmpty {
-                cell.artistNameLabel.text = "Unknown"
-            }
-            else {
-                cell.artistNameLabel.text = String(format: "%@ (%@)", searchResult.artistName, searchResult.type)
-            }
+            cell.configure(for: searchResult)
             return cell
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        performSegue(withIdentifier: "ShowDetail", sender: indexPath)
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
@@ -139,9 +165,16 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     // MARK:- Private Methods
-    func iTunesURL(searchText: String) -> URL {
+    func iTunesURL(searchText: String, category: Int) -> URL {
+        let kind: String
+        switch category {
+        case 0: kind = "musicTrack"
+        case 1: kind = "software"
+        case 2: kind = "ebook"
+        default: kind = ""
+        }
         let encodedText = searchText.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-        let urlString = String(format: "https://itunes.apple.com/search?term=%@", encodedText)
+        let urlString = "https://itunes.apple.com/search?term=\(encodedText)&limit=200&entity=\(kind)"
         let url = URL(string: urlString)
         return url!
     }
