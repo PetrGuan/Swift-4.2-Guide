@@ -99,9 +99,8 @@
                                             <action selector="close" destination="WiL-dd-nAN" eventType="touchUpInside" id="HIo-B5-5cA"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="NrS-tj-8AX">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="NrS-tj-8AX">
                                         <rect key="frame" x="8" y="116" width="220" height="24"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -156,10 +155,13 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="0.95315175513698636" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="NrS-tj-8AX" firstAttribute="top" secondItem="brC-7w-eR1" secondAttribute="bottom" constant="8" id="62d-ES-eCD"/>
                                     <constraint firstItem="fzp-1d-aPa" firstAttribute="leading" secondItem="6uN-BR-kqk" secondAttribute="leading" constant="4" id="63s-gw-gwZ"/>
                                     <constraint firstAttribute="bottom" secondItem="7ud-xD-aAY" secondAttribute="bottom" constant="8" id="FJS-Mt-VDD"/>
                                     <constraint firstItem="fzp-1d-aPa" firstAttribute="top" secondItem="6uN-BR-kqk" secondAttribute="top" constant="2" id="O1k-ic-jHv"/>
+                                    <constraint firstAttribute="trailing" secondItem="NrS-tj-8AX" secondAttribute="trailing" constant="12" id="RKS-NG-4Uc"/>
                                     <constraint firstItem="brC-7w-eR1" firstAttribute="top" secondItem="6uN-BR-kqk" secondAttribute="top" constant="8" id="Xtl-ay-acx"/>
+                                    <constraint firstItem="NrS-tj-8AX" firstAttribute="leading" secondItem="6uN-BR-kqk" secondAttribute="leading" constant="8" id="dW5-Al-AIM"/>
                                     <constraint firstItem="brC-7w-eR1" firstAttribute="centerX" secondItem="6uN-BR-kqk" secondAttribute="centerX" id="eC9-YB-i07"/>
                                     <constraint firstAttribute="trailing" secondItem="7ud-xD-aAY" secondAttribute="trailing" constant="8" id="hqk-fs-Zws"/>
                                 </constraints>
