@@ -27,6 +27,7 @@ class SearchViewController: UIViewController {
     var searchResults = [SearchResult]()
     var hasSearched = false
     var isLoading = false
+    var landscapeVC: LandscapeViewController?
     
     var dataTask: URLSessionDataTask?
     
@@ -75,6 +76,30 @@ class SearchViewController: UIViewController {
             let detailViewController = segue.destination as! DetailViewController
             let indexPath = sender as! IndexPath
             detailViewController.searchResult = searchResults[indexPath.row]
+        }
+    }
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.willTransition(to: newCollection, with: coordinator)
+        
+//        switch newCollection.verticalSizeClass {
+//        case .compact:
+//            showLandscape(with: coordinator)
+//        case .regular, .unspecified:
+//            hideLandscape(with: coordinator)
+//        }
+    }
+    
+    func showLandscape(with coordinator: UIViewControllerAnimatedTransitioning) {
+        guard landscapeVC == nil else {
+            return
+        }
+        
+        landscapeVC = storyboard!.instantiateViewController(withIdentifier: "LandscapeViewController") as? LandscapeViewController
+        if let controller = landscapeVC {
+            controller.view.frame = view.bounds
+            view.addSubview(controller.view)
+            
         }
     }
 }
