@@ -10,10 +10,9 @@
 
 Quoting Sun's Multithreaded Programming Guide:
 
->
-Concurrency: A condition that exists when at least two threads are making progress. A more generalized form of parallelism that can include time-slicing as a form of virtual parallelism.
->
-Parallelism: A condition that arises when at least two threads are executing simultaneously.
+> Concurrency: A condition that exists when at least two threads are making progress. A more generalized form of parallelism that can include time-slicing as a form of virtual parallelism.
+
+> Parallelism: A condition that arises when at least two threads are executing simultaneously.
 
 ## Concurrency
 
