@@ -55,3 +55,79 @@ This is by design: 你的代码不应该依赖这些实现细节。
 什么时候开始执行一个 task 这是完全由 GCD 决定的。如果一个 task 的执行时间和另一个 task 重叠了，那么是否应该在另一个 core 上执行（如果有可用的 core），或者是进行 context switch 这也完全是 GCD 决定的。
 
 GCD 提供了三种主要的队列（queues）:
+
+> * **Main queue**: 在主线程上执行并且是一个 serial queue。
+> * **Global queues**: 系统共有的 concurrent queues。有四种不同优先级的队列: high, default, low, and background。
+> * **Custom queues**: 用户自定义的队列，可以是 serial 或者 concurrent 的。
+
+当把 tasks 提交给 global concurrent 队列时，你并不是直接指明优先级。相反你使用 Quality of Service (QoS)，QoS 代表任务的重要性，也就是优先级。
+
+具体的 QoS:
+
+> **User-interactive**: This represents tasks that must complete immediately in order to provide a nice user experience. Use it for UI updates, event handling and small workloads that require low latency. The total amount of work done in this class during the execution of your app should be small. This should run on the main thread.
+
+> **User-initiated**: The user initiates these asynchronous tasks from the UI. Use them when the user is waiting for immediate results and for tasks required to continue user interaction. They execute in the high priority global queue.
+
+> **Utility**: This represents long-running tasks, typically with a user-visible progress indicator. Use it for computations, I/O, networking, continuous data feeds and similar tasks. This class is designed to be energy efficient. This will get mapped into the low priority global queue.
+
+> **Background**: This represents tasks that the user is not directly aware of. Use it for prefetching, maintenance, and other tasks that don’t require user interaction and aren’t time-sensitive. This will get mapped into the background priority global queue.
+
+## Synchronous vs. Asynchronous
+
+你可以使用 GCD 来分派任务，同步和异步都可以。
+
+一个同步的函数会在整个任务结束之后才把控制返回给调用者，你可以这样使用：
+
+    DispatchQueue.sync(execute:)
+
+一个异步的函数会马上把控制返回给调用者，会让任务开始但不会等待它结束。因此异步的函数并不会阻塞当前线程对下一个函数的执行。你可以这样使用：
+
+    DispatchQueue.async(execute:)
+
+
+## Managing Tasks
+
+对于本文来说，你可以直接把 task 当作是 closure。每个提交给 DispatchQueue 的 task 都是一个 DispatchWorkItem。你可以设置它的行为比如 QoS，以及是否会 spawn 一个新的线程。
+
+## Handling Background Tasks
+
+让我们回过头来看我们的 app。
+
+打开 **PhotoDetailViewController.swift**，注意到 **viewDidLoad()** 方法中的这两行：
+
+    let overlayImage = faceOverlayImageFrom(image)
+    fadeInNewImage(overlayImage)
+
+由于这两行任务比较重，并且是在 **viewDidLoad()** 里，所以很可能会影响用户体验，必须要等完成了才返回控制。现在我们修改成这样：
+
+```swift
+// 1
+DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+  guard let self = self else {
+    return
+  }
+  let overlayImage = self.faceOverlayImageFrom(self.image)
+
+  // 2
+  DispatchQueue.main.async { [weak self] in
+    // 3
+    self?.fadeInNewImage(overlayImage)
+  }
+}
+```
+
+以下是具体说明：
+
+1. 你把这段代码移到了一个 background global queue 里，并且异步地执行。这可以让 **viewDidLoad()** 很快就结束并返回，并且让 loading 更流畅。同时 the face detection processing 已经开始了，但可能还没有结束。
+2. 在这个时刻，the face detection processing 已经结束了并且你得到了一个新的 image，而你需要用这个 image 来更新你的 UIImageView。你在 main queue 里添加了另一个 closure。注意，所有和 UI 有关的代码都必须在主线程！
+3. 最后，你调用 **fadeInNewImage(_:)** 来更新 UI。
+
+总结来说，当你需要执行网络有关，以及对 CPU 负载比较大的 task 的时候你可以使用异步，这可以不阻塞当前的线程。
+
+以下是一个快速的异步队列使用指南：
+
+> **Main Queue**: This is a common choice to update the UI after completing work in a task on a concurrent queue. To do this, you code one closure inside another. Targeting the main queue and calling async guarantees that this new task will execute sometime after the current method finishes.
+
+> **Global Queue**: This is a common choice to perform non-UI work in the background.
+
+> **Custom Serial Queue**: A good choice when you want to perform background work serially and track it. This eliminates resource contention and race conditions since you know only one task at a time is executing. Note that if you need the data from a method, you must declare another closure to retrieve it or consider using sync.
