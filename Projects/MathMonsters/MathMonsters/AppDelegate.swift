@@ -20,7 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let splitViewController = window?.rootViewController as? UISplitViewController,
             let leftNavController = splitViewController.viewControllers.first as? UINavigationController,
             let masterViewController = leftNavController.topViewController as? MasterViewController,
-            let detailViewController = splitViewController.viewControllers.last as? DetailViewController
+            let rightNavController = splitViewController.viewControllers.last as? UINavigationController,
+            let detailViewController = rightNavController.topViewController as? DetailViewController
             else { fatalError() }
         
         let firstMonster = masterViewController.monsters.first
@@ -28,6 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         masterViewController.delegate = detailViewController
         
+        detailViewController.navigationItem.leftItemsSupplementBackButton = true
+        detailViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem
         return true
     }
 

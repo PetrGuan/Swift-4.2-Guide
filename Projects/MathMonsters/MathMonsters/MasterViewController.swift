@@ -59,8 +59,11 @@ class MasterViewController: UITableViewController {
         let selectedMonster = monsters[indexPath.row]
         delegate?.monsterSelected(selectedMonster)
         
-        if let detailViewController = delegate as? DetailViewController { splitViewController?.showDetailViewController(detailViewController, sender: nil)
+        if let detailViewController = delegate as? DetailViewController,
+            let detailNavigationController = detailViewController.navigationController {
+            splitViewController?.showDetailViewController(detailNavigationController, sender: nil)
         }
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
