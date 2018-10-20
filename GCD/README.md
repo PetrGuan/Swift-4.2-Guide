@@ -131,3 +131,187 @@ DispatchQueue.global(qos: .userInitiated).async { [weak self] in
 > **Global Queue**: This is a common choice to perform non-UI work in the background.
 
 > **Custom Serial Queue**: A good choice when you want to perform background work serially and track it. This eliminates resource contention and race conditions since you know only one task at a time is executing. Note that if you need the data from a method, you must declare another closure to retrieve it or consider using sync.
+
+## Delaying Task Execution
+
+DispatchQueue 能够让 task 延时执行。不要把这个延时功能用在解决 race conditions 或者其他时间有关的 bug。当你想在某个时间运行 task 的时候使用这个延时功能（嗯，别想歪了）。
+
+比如你有一个 app，很有可能用户第一次使用打开 app 不知道应该做什么。如果没有照片的话，给用户一些提示会是一个很好的设计，你也应该考虑用户视线的转移。一个两秒的延时应该比较合适。
+
+打开 **PhotoCollectionViewController.swift** 并且实现 **showOrHideNavPrompt()** 方法:
+
+```swift
+// 1
+let delayInSeconds = 2.0
+
+// 2
+DispatchQueue.main.asyncAfter(deadline: .now() + delayInSeconds) { [weak self] in
+  guard let self = self else {
+    return
+  }
+
+  if PhotoManager.shared.photos.count > 0 {
+    self.navigationItem.prompt = nil
+  } else {
+    self.navigationItem.prompt = "Add photos with faces to Googlyify them!"
+  }
+
+  // 3
+  self.navigationController?.viewIfLoaded?.setNeedsLayout()
+}
+```
+
+以下是每一步的意图：
+
+1. 阐明延时多久。
+2. 等到时间到了异步执行之后的代码块，更新图片数以及 prompt。
+3. 强行让 navigation bar layout，当设置完 prompt 之后。
+
+**showOrHideNavPrompt()** 在 **viewDidLoad()** 中被执行，以及当 **UICollectionView** reloads 的时候。
+
+编译并且运行，如下：
+
+![image](https://github.com/byelaney/Swift-4.2-Guide/blob/master/GCD/img/4.png)
+
+为什么不使用 Timer？当你有重复的 task 的时候你可以考虑使用它，以下是两个使用 dispatch queue’s asyncAfter() 的原因：
+
+一个是可读性，使用 DispatchQueue 的 asyncAfter()，你直接加一个 closure 就可以了。Timer 的话就更为复杂以及没有那么容易理解。
+
+另一个原因是 Timer 基于 run loops，你必须保证在正确的 run loops 上运行，使用  DispatchQueue 会比较简单。
+
+## Managing Singletons
+
+一个常见的关于 singleton 的问题就是：它们可能不是线程安全的。因为 singleton 可能经常被多个 controller 同时访问，我们的 **PhotoManager** 类就是一个 singleton，下来我们具体来看这个问题。
+
+线程安全的代码可以被多线程或者并发的 task 访问，并且不引起类似 data corruption 或者 app crash 各种各样的问题。有两种线程安全的问题需要考虑：当 singleton 的实例初始化的时候，以及当读或者写这个实例的时候。
+
+初始化比较容易处理，Swift 会初始化静态变量当它们第一次被访问的时候，并且会保证这样的操作是原子的。Swift 会保证初始化的代码是线程安全的。
+
+打开 **PhotoManager.swift** 看看我们是如何初始化 singleton 的:
+
+    class PhotoManager {
+    private init() {}
+    static let shared = PhotoManager()
+    }
+
+private 关键字保证了只有一个 PhotoManager 的实例。你需要处理该类的属性被多线程访问的数据同步问题。
+
+## Handling the Readers-Writers Problem
+
+在 Swift 里，任何被 let 修饰的变量都是常量，因此它们是只读的并且是线程安全的（只能读不会改当然安全了）。如果是 var 修饰的变量的话，那就不是默认线程安全的了，比如声明为 mutable 的 Array 或者 Dictionary。
+
+尽管多个线程可以同时读取一个 mutable 的 Array 实例，但如果同时有一个线程在修改这个实例，那么结果就是无法预测的了。当前我们的 singleton 并不能防止这种情况的发生。
+
+具体看 **PhotoManager.swift** 中的 **addPhoto(_:)** 方法：
+
+```swift
+func addPhoto(_ photo: Photo) {
+  unsafePhotos.append(photo)
+  DispatchQueue.main.async { [weak self] in
+    self?.postContentAddedNotification()
+  }
+}
+```
+
+这是读写操作中的写操作，继续往下看：
+
+```swift
+private var unsafePhotos: [Photo] = []
+
+var photos: [Photo] {
+  return unsafePhotos
+}
+```
+
+这里的 getter 属性就是读写操作中的读操作。调用者会得到一份 copy，但这并不保证别的线程同时在修改它。
+
+这就是软件开发中的非常经典的 Readers-Writers Problem。GCD 提供了一种非常优雅的解决方案，使用 dispatch barrier 来创造 read/write 锁。Dispatch barriers 是一类函数，并且能够让并行队列展现出 serial-style 的行为。
+
+当你提交一个 DispatchWorkItem 到 dispatch queue 的时候，你可以设置 flags 来表示它是这个队列中在某个时段独占线程执行的 item。也就是说其他所有在这个 barrier 之前提交给队列的 items 都应该已经完成了，当这个 barrier workitem 开始执行的时候。
+
+当轮到这个 DispatchWorkItem 的执行时，barrier 会执行并且保证队列里只有这一个 workitem 在执行，只有当这个 item 结束后才会返回原来的模式。
+
+下面的图更为直观和便于理解：
+
+![image](https://github.com/byelaney/Swift-4.2-Guide/blob/master/GCD/img/5.png)
+
+当 barrier 在执行的时候，这时能把 queue 当作是 serial queue，只有一个 barrier 在执行，一旦执行完之后 queue 就又变回原来的 concurrent queue 了。
+
+谨慎使用 barrier 如果是在 global background concurrent queues，因为这些 queues 是 shared resources。在 serial queue 里没必要使用 barrier，因为本身就是顺序执行的。在 custom concurrent queue 里使用 barrier 是一个不错的选择。
+
+我们选择在 custom concurrent queue 处理 barrier function，并且把读写函数分离。该 concurrent queue 会允许多线程同时读取。
+
+打开 **PhotoManager.swift**，作如下修改：
+
+```swift
+private let concurrentPhotoQueue =
+  DispatchQueue(
+    label: "com.raywenderlich.GooglyPuff.photoQueue",
+    attributes: .concurrent)
+```
+
+修改 **addPhoto(_:)** 方法：
+
+```swift
+func addPhoto(_ photo: Photo) {
+  concurrentPhotoQueue.async(flags: .barrier) { [weak self] in
+    // 1
+    guard let self = self else {
+      return
+    }
+
+    // 2
+    self.unsafePhotos.append(photo)
+
+    // 3
+    DispatchQueue.main.async { [weak self] in
+      self?.postContentAddedNotification()
+    }
+  }
+}
+```
+
+以下是具体说明:
+
+1. 你使用了一个 barrier 来异步分发“写”操作，当它在执行的时候，队列里会保证只有它在执行。
+2. 将对象添加到数组中。
+3. 最后你发出一个通知，告知照片已经被添加了。该操作必须在主线程里因为它要做 UI 相关的操作，所以你使用 **DispatchQueue.main.async**。
+
+好了写操作结束了，下来轮到读操作了。
+
+为了保证写操作的线程安全，你需要在 concurrentPhotoQueue queue 里进行读操作，只有在添加完成后你才应该读取返回数据，所以我们使用 **sync**。
+
+当你需要追踪 dispatch barriers 的完成情况时，或者当你需要等待某个操作完成后才继续，这时我们就可以用 **sync**。
+
+你需要非常的小心，因为这可能涉及到另一个问题，**deadlock situation**。
+
+两个或多个线程，如果它们都在彼此等待对方完成某些任务，那么这就会造成死锁。第一个线程在等第二个线程结束，而第二个线程也在等第一个线程结束。
+
+以下是使用 **sync** 的场景:
+
+>* Main Queue: Be **VERY** careful for the same reasons as above; this situation also has potential for a deadlock condition. This is especially bad on the main queue because the whole app will become unresponsive.
+>* Global Queue: This is a good candidate to sync work through dispatch barriers or when waiting for a task to complete so you can perform further processing.
+>* Custom Serial Queue: Be VERY careful in this situation; if you’re running in a queue and call sync targeting the same queue, you’ll definitely create a deadlock.
+
+修改 **PhotoManager.swift**：
+
+```swift
+var photos: [Photo] {
+  var photosCopy: [Photo]!
+
+  // 1
+  concurrentPhotoQueue.sync {
+
+    // 2
+    photosCopy = self.unsafePhotos
+  }
+  return photosCopy
+}
+```
+
+具体说明：
+
+1. 在 concurrentPhotoQueue 里同步地执行读操作。
+2. 保存下 photo array 的副本并且返回。
+
+That‘s it！现在你的 **PhotoManager singleton** 已经是线程安全的了！
