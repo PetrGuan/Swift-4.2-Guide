@@ -18,6 +18,9 @@
 		42AAE3951FE5C8FF001CA654 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42AAE3941FE5C8FF001CA654 /* Assets.xcassets */; };
 		42AAE3971FE5C954001CA654 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42AAE3961FE5C954001CA654 /* LaunchScreen.storyboard */; };
 		42AAE3991FE5CDA1001CA654 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AAE3981FE5CDA1001CA654 /* QuestionView.swift */; };
+		602CF0D8218BC6B00080481F /* QuestionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602CF0D7218BC6B00080481F /* QuestionStrategy.swift */; };
+		602CF0DA218BC83D0080481F /* SequentialQuestionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602CF0D9218BC83D0080481F /* SequentialQuestionStrategy.swift */; };
+		602CF0DC218BC9D60080481F /* RandomQuestionStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602CF0DB218BC9D60080481F /* RandomQuestionStrategy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +37,9 @@
 		42AAE3941FE5C8FF001CA654 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		42AAE3961FE5C954001CA654 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		42AAE3981FE5CDA1001CA654 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
+		602CF0D7218BC6B00080481F /* QuestionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionStrategy.swift; sourceTree = "<group>"; };
+		602CF0D9218BC83D0080481F /* SequentialQuestionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SequentialQuestionStrategy.swift; sourceTree = "<group>"; };
+		602CF0DB218BC9D60080481F /* RandomQuestionStrategy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomQuestionStrategy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +72,7 @@
 		42AAE3701FE5C278001CA654 /* RabbleWabble */ = {
 			isa = PBXGroup;
 			children = (
+				602CF0D6218BC6640080481F /* Strategies */,
 				42AAE3831FE5C362001CA654 /* AppDelegate */,
 				42AAE3841FE5C365001CA654 /* Controllers */,
 				42AAE3851FE5C369001CA654 /* Models */,
@@ -122,6 +129,16 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		602CF0D6218BC6640080481F /* Strategies */ = {
+			isa = PBXGroup;
+			children = (
+				602CF0D7218BC6B00080481F /* QuestionStrategy.swift */,
+				602CF0D9218BC83D0080481F /* SequentialQuestionStrategy.swift */,
+				602CF0DB218BC9D60080481F /* RandomQuestionStrategy.swift */,
+			);
+			path = Strategies;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -154,6 +171,7 @@
 				TargetAttributes = {
 					42AAE36D1FE5C278001CA654 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -194,13 +212,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				602CF0DA218BC83D0080481F /* SequentialQuestionStrategy.swift in Sources */,
 				42AAE3891FE5C468001CA654 /* Question.swift in Sources */,
 				42AAE3741FE5C278001CA654 /* QuestionViewController.swift in Sources */,
+				602CF0DC218BC9D60080481F /* RandomQuestionStrategy.swift in Sources */,
 				42AAE3721FE5C278001CA654 /* AppDelegate.swift in Sources */,
 				42AAE38B1FE5C483001CA654 /* QuestionGroup.swift in Sources */,
 				42AAE3991FE5CDA1001CA654 /* QuestionView.swift in Sources */,
 				42AAE3911FE5C728001CA654 /* QuestionGroupData.swift in Sources */,
 				4286AC691FF3198A0065F924 /* SelectQuestionGroupViewController.swift in Sources */,
+				602CF0D8218BC6B00080481F /* QuestionStrategy.swift in Sources */,
 				4286AC6B1FF31D0B0065F924 /* QuestionGroupCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -339,7 +360,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.raywenderlich.RabbleWabble;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -353,7 +374,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.raywenderlich.RabbleWabble;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
