@@ -16,9 +16,9 @@ Quoting Sun's Multithreaded Programming Guide:
 
 ## Concurrency
 
-在 iOS 的世界里，一个 process 或者 application 包含了一个或多个 threads。iOS 系统的 scheduler 会对每个 thread 独立地维护。每个 thread 都能够并行地运行（execute concurrently），但这是由系统决定的。是否并行，什么时候并行，并且具体怎么并行都由系统说了算。
+在 iOS 的世界里，一个 process 或者 application 包含了一个或多个 threads。iOS 系统的 scheduler 会对每个 thread 独立地维护。每个 thread 都能够并发地运行（execute concurrently），但这是由系统决定的。是否并发，什么时候并发，并且具体怎么并发都由系统说了算。
 
-单核的设备通过 **time-slicing** 来达成并行。它们运行一个 thread，执行一次上下文切换（context switch），然后再运行另一个 thread。
+单核的设备通过 **time-slicing** 来达成并发。它们运行一个 thread，执行一次上下文切换（context switch），然后再运行另一个 thread。
 
 ![image](https://github.com/byelaney/Swift-4.2-Guide/blob/master/GCD/img/1.png)
 
