@@ -33,7 +33,6 @@ public protocol QuestionStrategy: class {
   var correctCount: Int { get }
   var incorrectCount: Int { get }
   
-
   func advanceToNextQuestion() -> Bool
   func currentQuestion() -> Question
   

@@ -21,6 +21,8 @@
 		42AAE3951FE5C8FF001CA654 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 42AAE3941FE5C8FF001CA654 /* Assets.xcassets */; };
 		42AAE3971FE5C954001CA654 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 42AAE3961FE5C954001CA654 /* LaunchScreen.storyboard */; };
 		42AAE3991FE5CDA1001CA654 /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42AAE3981FE5CDA1001CA654 /* QuestionView.swift */; };
+		604B6B6021B25B600001FC90 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604B6B5F21B25B600001FC90 /* AppSettings.swift */; };
+		604B6B6221B261510001FC90 /* AppsettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604B6B6121B261510001FC90 /* AppsettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,8 @@
 		42AAE3941FE5C8FF001CA654 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		42AAE3961FE5C954001CA654 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		42AAE3981FE5CDA1001CA654 /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
+		604B6B5F21B25B600001FC90 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		604B6B6121B261510001FC90 /* AppsettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +111,7 @@
 			children = (
 				42AAE3731FE5C278001CA654 /* QuestionViewController.swift */,
 				4286AC681FF3198A0065F924 /* SelectQuestionGroupViewController.swift */,
+				604B6B6121B261510001FC90 /* AppsettingsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -117,6 +122,7 @@
 				42AAE3881FE5C468001CA654 /* Question.swift */,
 				42AAE38A1FE5C483001CA654 /* QuestionGroup.swift */,
 				42AAE3901FE5C728001CA654 /* QuestionGroupData.swift */,
+				604B6B5F21B25B600001FC90 /* AppSettings.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -173,6 +179,7 @@
 				TargetAttributes = {
 					42AAE36D1FE5C278001CA654 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -215,7 +222,9 @@
 			files = (
 				429ED0941FF60B1300559705 /* SequentialQuestionStrategy.swift in Sources */,
 				42AAE3891FE5C468001CA654 /* Question.swift in Sources */,
+				604B6B6021B25B600001FC90 /* AppSettings.swift in Sources */,
 				42AAE3741FE5C278001CA654 /* QuestionViewController.swift in Sources */,
+				604B6B6221B261510001FC90 /* AppsettingsViewController.swift in Sources */,
 				429ED0961FF60B2D00559705 /* RandomQuestionStrategy.swift in Sources */,
 				42AAE3721FE5C278001CA654 /* AppDelegate.swift in Sources */,
 				42AAE38B1FE5C483001CA654 /* QuestionGroup.swift in Sources */,
@@ -361,7 +370,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.raywenderlich.RabbleWabble;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -375,7 +384,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.raywenderlich.RabbleWabble;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -11,3 +11,18 @@
  
  ## Code Example
  */
+
+import UIKit
+
+// MARK:- Singleton
+let app = UIApplication.shared
+//let app2 = UIApplication()
+
+public class MySingleton {
+    static let shared = MySingleton()
+    private init() {}
+}
+
+let defaultFileManager = FileManager.default
+let customFileManager = FileManager()
+

@@ -40,6 +40,7 @@ public class SelectQuestionGroupViewController: UIViewController {
   // MARK: - Properties
   public lazy var questionGroups = QuestionGroup.allGroups()
   private var selectedQuestionGroup: QuestionGroup!
+  private let appSettings = AppSettings.shared
 
   // MARK: - Navigation
   public override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -47,7 +48,7 @@ public class SelectQuestionGroupViewController: UIViewController {
       return
     }
 
-    viewController.questionStrategy = SequentialQuestionStrategy(questionGroup: selectedQuestionGroup)
+    viewController.questionStrategy = appSettings.questionStrategy(for: selectedQuestionGroup)
     viewController.delegate = self
   }
 }
