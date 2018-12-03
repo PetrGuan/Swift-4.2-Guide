@@ -54,7 +54,7 @@ class QuestionViewController: UIViewController {
   
   public var questionView: QuestionView! {
     guard isViewLoaded else { return nil }
-    return view as! QuestionView
+    return view as? QuestionView
   }
   
   private lazy var questionIndexItem: UIBarButtonItem! = {

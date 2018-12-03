@@ -26,7 +26,20 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
-public struct QuestionGroup {
-  public let questions: [Question]
-  public let title: String
+public struct QuestionGroup: Codable {
+    public class Score: Codable {
+        public var correctCount = 0
+        public var incorrectCount = 0
+        public init() {}
+    }
+    
+    public let questions: [Question]
+    public var score: Score
+    public let title: String
+    
+    public init(questions: [Question], score: Score = Score(), title: String) {
+        self.questions = questions
+        self.score = score
+        self.title = title
+    }
 }
