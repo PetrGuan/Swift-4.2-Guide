@@ -82,7 +82,7 @@ extension SelectQuestionGroupViewController: UITableViewDelegate {
         guard let viewController = segue.destination
             as? QuestionViewController else { return }
         viewController.questionStrategy =
-            appSettings.questionStrategy(for: selectedQuestionGroup)
+            appSettings.questionStrategy(for: questionGroupCaretaker)
         viewController.delegate = self
     }
 }
