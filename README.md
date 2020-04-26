@@ -12,7 +12,6 @@
 
 # [Animations](https://github.com/byelaney/Swift-4.2-Guide/blob/master/Animations/README.md)
 
-作者 [@Peter_Guan][1]
 2018 年 07月 22日
 
 
